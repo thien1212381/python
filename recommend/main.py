@@ -15,33 +15,21 @@ critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
 'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
 'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
 'Toby': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
-tanimotoDataset={'Lisa Rose':{'Abc','Bcd','Cde','Def','Efg','Fgh'},
-                 'Danial':{'Bcd','Def','Efg','Ghi'},
-                 'Toby':{'Abc','Def','Ghi','Hij'},
-                 'Angular':{'Cde','Def','Fgh','Ghi'},
-                 'Zeus':{'Abc','Def','Efg','Ghi'},
-                 'Axe':{'Bcd','Cde','Efg','Hij'},
-                 'AA':{'Def','Fgh','Xyz','Yz','Z'},
-                 'Kunka':{'Ghi','Hij'}}
+tanimotoDataset={'Lisa Rose':{'Abc':1.0,'Bcd':1.0,'Cde':1.0,'Def':1.0,'Efg':1.0,'Fgh':1.0},
+                 'Danial':{'Bcd':1.0,'Def':1.0,'Efg':1.0,'Ghi':1.0},
+                 'Toby':{'Abc':1.0,'Def':1.0,'Ghi':1.0,'Hij':1.0},
+                 'Angular':{'Cde':1.0,'Def':1.0,'Fgh':1.0,'Ghi':1.0},
+                 'Zeus':{'Abc':1.0,'Def':1.0,'Efg':1.0,'Ghi':1.0},
+                 'Axe':{'Bcd':1.0,'Cde':1.0,'Efg':1.0,'Hij':1.0},
+                 'AA':{'Def':1.0,'Fgh':1.0,'Xyz':1.0,'Yz':1.0,'Z':1.0},
+                 'Kunka':{'Ghi':1.0,'Hij':1.0},
+                 'Jack Mattews':{'Bcd':1.0,'Def':1.0,'Efg':1.0,'Jkl':1.0,'Klm':1.0}}
 from math import sqrt
 def sim_tanimoto(prefs,person1,person2):
-    vector = [{},{}]
+    intersectingSet = set(prefs[person1].keys()) &  set(prefs[person2].keys())
+    unionSet = set(prefs[person1].keys()) |  set(prefs[person2].keys())
+    return float(len(intersectingSet))/float(len(unionSet))
 
-    for item in prefs[person1]:
-        vector[0][item] = 1
-    for item in prefs[person2]:
-        vector[1][item] = 1
-
-    maxLen = 0
-    if(len(vector[0])<len(vector[1])):
-        maxLen=1
-
-    count=0
-    for item in vector[maxLen]:
-        if item in vector[maxLen-1]:
-            count=count+1
-
-    return float(count)/float(len(vector[maxLen]))
 def sim_distance(prefs,person1,person2):
     # Get the list of shared_items
     si={}
@@ -177,9 +165,18 @@ def loadMovieLens(path='./ml-1m'):
 #print getRecommendations(prefs,'87',sim_distance)[0:10]
 #itemsim = calculateSimilarItems(prefs,n=50)
 #print getRecommendedItems(prefs,itemsim,'87')[0:10]
-for item  in tanimotoDataset:
+#itemsim = calculateSimilarItems(critics,n=10)
+#prefs = loadMovieLens( )
+#for item  in prefs:
+    #print getRecommendations(prefs, item)[0:10]
+    #print getRecommendations(prefs, item, sim_distance)[0:10]
+    #print getRecommendations(prefs, item, sim_tanimoto)[0:10]
+    #print '##################################################'
+for item in critics:
     print item
-    print topMatches(tanimotoDataset,item,5,sim_tanimoto)
+    print topMatches(critics,item,5,sim_tanimoto)
+    print getRecommendations(critics, item, sim_tanimoto)[0:20]
+   # print getRecommendedItems(critics, itemsim, item)
 #for p in critics:
  #   print p
   #  print getRecommendations(critics,p)
