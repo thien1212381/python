@@ -165,8 +165,18 @@ def genetic_algorithms(domain,costf,popsize=50,step=1,mutprob=0.15,elite=0.2,max
     return scores[0][1]
 
 
-domain = [(0,8)]*(len(people)*2)
-r = genetic_algorithms(domain,schedulecost)
-print schedulecost(r)
-print r
-printschedule(r)
+#domain = [(0,8)]*(len(people)*2)
+#r = genetic_algorithms(domain,schedulecost)
+#print schedulecost(r)
+#print r
+#printschedule(r)
+import socialnetwork
+sol = randomoptimize(socialnetwork.domain,socialnetwork.crosscount)
+print sol
+print socialnetwork.crosscount(sol)
+sol = simulated_annealing(socialnetwork.domain,socialnetwork.crosscount,step=50,cool=0.99)
+print socialnetwork.crosscount(sol)
+print sol
+socialnetwork.drawnetwork(sol)
+sol = [324, 190, 241, 329, 298, 237, 117, 181, 88, 106, 56, 10, 296, 370, 11, 312]
+print socialnetwork.crosscount(sol)
